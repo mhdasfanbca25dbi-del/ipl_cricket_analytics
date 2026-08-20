@@ -1,1 +1,1 @@
-## "ipl analytics project"
+## "IPL ANALYTICS PROJECT"
