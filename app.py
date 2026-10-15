@@ -16,8 +16,29 @@ h1,h2,h3 { color:#f4f7fb !important; }
 .kpi-note { color:#8fa7cf; font-size:12px; margin-top:5px; }
 </style>""", unsafe_allow_html=True)
 
+APP_DIR = Path(__file__).resolve().parent
+CSV_TABLES = ("teams", "venues", "matches")
+CSV_CANDIDATES = (
+    APP_DIR / "notebooks",
+    APP_DIR / "notebooks" / "ipl_teams_venues_dashboard",
+    APP_DIR,
+    APP_DIR / "data" / "raw" / "tables",
+)
+CSV_DIR = next(
+    (folder for folder in CSV_CANDIDATES
+     if all((folder / f"{name}.csv").is_file() for name in CSV_TABLES)),
+    None,
+)
+
 @st.cache_data
-def load_csv(name): return pd.read_csv(Path(__file__).parent / name)
+def load_csv(name):
+    if CSV_DIR is None:
+        raise FileNotFoundError(
+            "Could not find teams.csv, venues.csv, and matches.csv in the app, "
+            "notebooks, or data/raw/tables folders."
+        )
+    return pd.read_csv(CSV_DIR / name)
+
 teams=load_csv('teams.csv'); venues=load_csv('venues.csv'); matches=load_csv('matches.csv')
 for df, cols in [(teams,['team_name']),(venues,['venue','city']),(matches,['venue','city','team1','team2','match_winner','season'])]:
     for col in cols:

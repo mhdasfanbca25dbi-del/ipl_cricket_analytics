@@ -60,4 +60,4 @@ The final answer was settled against the SQLite database, not by choosing the mo
 
 ## Conclusion
 
-The database was treated as the source of truth. AI was used only for explanation, review and second-opinion checking.
+The database was treated as the source of truth. AI was used only for explanation, review and second-opinion checking.  
